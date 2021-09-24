@@ -5,9 +5,17 @@ DON'T replace files in the bundle with files created by somebody else
 
 # Setup
 
+0. Prerequisites
+  * HTTP Status - https://github.com/opl-/beatsaber-http-status/releases
+    * HTTP Status has own (2) dependencies! (https://github.com/opl-/beatsaber-http-status#manual)
+      * BS Utils
+      * websocket-sharp
+      (https://beatmods.com/#/mods)
 1. Download release from releases page
 2. Unzip to empty (separate) folder
 3. Add (drag&drop works) `index.html` from unpacked folder to obs scene.
+
+(I am thinking about adding support for datapuller)
 
 # Config
 
