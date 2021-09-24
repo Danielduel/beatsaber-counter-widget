@@ -17,11 +17,11 @@ No configuration required, but you might want to change `styles.css` and/or `con
   * To change colors/appearance use `styles.css`
   * To change the text displayed in widget:
     * Go to `config.js`
-    * Locate line with ```js return `Bloqs booped ${notesCut}`;```
-    * Replace content between backticks and use `${notesCut}` as a place where number will be displayed.
+    * Locate line with ```return `Bloqs booped ${notesCut}`;```
+    * Replace content between backticks (\`) and use `${notesCut}` as a place where number will be displayed.
       * For example:
         * If you want to display "Box destroyed: 12312 (and counting)"
-        * Then this line should be ```js return `Box destroyed: ${notesCut} (and counting)`;```
+        * Then this line should be ```return `Box destroyed: ${notesCut} (and counting)`;```
 
 # Help with customization and features
 
