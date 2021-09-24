@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+
+:root {
+  --ui-scale: 1.0;
+
+  --text: black;
+  --text-shadow: gray;
+  --background: white;
+  --background-shadow: gray;
+}
+
+body {
+  background-size: cover;
+}
+
+.counter__container {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 32pt;
+
+  /* color: white; */
+  position: fixed;
+  left: 30px;
+  top: 30px;
+  border-radius: 20px;
+  padding: 20px 30px;
+
+  color: var(--text);
+  text-shadow: var(--text-shadow) 1px 1px;
+  background-color: var(--background);
+  box-shadow: var(--background-shadow) 5px 5px;
+
+  transform: scale(var(--ui-scale));
+  transform-origin: 0 0;
+}
+
+
+.counter__text {
+}
