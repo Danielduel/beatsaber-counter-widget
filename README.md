@@ -21,7 +21,7 @@ DON'T replace files in the bundle with files created by somebody else
 
 No configuration required, but you might want to change `styles.css` and/or `config.js`.
 
-* Configuration basics:
+* Configuration basics (you can open css and js files in notepad or pretty much any text editor):
   * To change colors/appearance use `styles.css`
   * To change the text displayed in widget:
     * Go to `config.js`
@@ -30,6 +30,13 @@ No configuration required, but you might want to change `styles.css` and/or `con
       * For example:
         * If you want to display "Box destroyed: 12312 (and counting)"
         * Then this line should be ```return `Box destroyed: ${notesCut} (and counting)`;```
+  * To change colors/appearance of "perfect cuts" use `stylesPerfectCuts.css`
+  * To change bahavior of "perfect cuts" use `configPerfectCuts.js`
+  (note it doesn't fully work, I need to add more params to perfect cuts to make it fully customisable, but I am starting stream in 5 minutes so I wanted to just push out 0.0.2, sorry <3)
+
+# Testing
+
+If you add "?dev" at the end of address - widget will automagically generate events.
 
 # Help with customization and features
 

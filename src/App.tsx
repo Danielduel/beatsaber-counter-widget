@@ -1,16 +1,26 @@
-import React from 'react';
+import React from "react";
+import cn from "classnames";
+import styled from "styled-components";
 // use very scoped file to reduce size of bundle
 import { useHTTPStatusWebsocket } from "@duelsik/rehooked/lib/BeatSaber/useHTTPStatusWebsocket";
 import { useNumberReducer } from "@duelsik/rehooked/lib/common/useNumberReducer";
-import styled from "styled-components";
+import { createUsePlayEventsInDevMode } from "./usePlayEventsInDevMode";
+import { useDelayedTrigger } from "./useDelayedTrigger";
+
+const usePlayEventsInDevMode = createUsePlayEventsInDevMode(window.location.search === "?dev");
 
 type BeatSaberCounterWidgetProps = {
-  notesCutText: (notesCut: number) => string
+  notesCutText: (notesCut: number) => string;
+};
+
+type BeatSaberCounterWidgetPerfectCuts = BeatSaberCounterWidgetProps & {
+  delayToHide: number;
 };
 
 declare global {
   interface Window {
     BeatSaberCounterWidget: BeatSaberCounterWidgetProps;
+    BeatSaberCounterWidgetPerfectCuts: BeatSaberCounterWidgetPerfectCuts;
   }
 }
 
@@ -23,32 +33,76 @@ type NoteFullyCutHandler = NonNullable<Handlers["noteFullyCut"]>;
 const NotesCutContainer = styled.div``;
 const NotesCutText = styled.div``;
 
-function Counter({ BeatSaberCounterWidget }: { BeatSaberCounterWidget: BeatSaberCounterWidgetProps }) {
-  const {
-    state: notesCut,
-    add
-  } = useNumberReducer(0);
+const NotesPerfectCutContainer = styled.div``;
+const NotesPerfectCutText = styled.div``;
 
-  const noteFullyCut = React.useCallback<NoteFullyCutHandler>(() => {
-    add(1);
-  }, [add]);
+type CounterProps = {
+  BeatSaberCounterWidget: BeatSaberCounterWidgetProps;
+  BeatSaberCounterWidgetPerfectCuts: BeatSaberCounterWidgetPerfectCuts;
+};
 
-  useHTTPStatusWebsocket({
-    address: httpStatusAddress,
-    debug: false,
-    errorHandler: console.error
-  }, [
+function Counter({
+  BeatSaberCounterWidget,
+  BeatSaberCounterWidgetPerfectCuts,
+}: CounterProps) {
+  const { state: notesCut, add: notesCutAdd } = useNumberReducer(0);
+
+  const { state: notesCut115, add: notesCut115Add } = useNumberReducer(0);
+  const [shouldShow115, triggerShouldShow115] = useDelayedTrigger(
+    BeatSaberCounterWidgetPerfectCuts.delayToHide - 1000
+  );
+  const [shouldRender115, triggerShouldRender115] = useDelayedTrigger(
+    BeatSaberCounterWidgetPerfectCuts.delayToHide
+  );
+
+  const noteFullyCut = React.useCallback<NoteFullyCutHandler>(
+    (noteFullyCutMessage) => {
+      notesCutAdd(1);
+      if (noteFullyCutMessage.noteCut.finalScore === 115) {
+        notesCut115Add(1);
+        triggerShouldShow115();
+        triggerShouldRender115();
+      }
+    },
+    [notesCutAdd, notesCut115Add, triggerShouldShow115, triggerShouldRender115]
+  );
+
+  useHTTPStatusWebsocket(
     {
-      noteFullyCut
-    }
-  ]);
+      address: httpStatusAddress,
+      debug: false,
+      errorHandler: console.error,
+    },
+    [
+      {
+        noteFullyCut,
+      },
+    ]
+  );
+
+  usePlayEventsInDevMode(noteFullyCut);
 
   return (
-    <NotesCutContainer className="counter__container">
-      <NotesCutText className="counter__text">
-        {BeatSaberCounterWidget.notesCutText(notesCut)}
-      </NotesCutText>
-    </NotesCutContainer>
+    <>
+      <NotesCutContainer className="counter__container">
+        <NotesCutText className="counter__text">
+          {BeatSaberCounterWidget.notesCutText(notesCut)}
+        </NotesCutText>
+      </NotesCutContainer>
+      {shouldRender115 && (
+        <NotesPerfectCutContainer className={cn(
+            "counter__perfectNotes--container",
+            {
+              "shouldShow": shouldShow115,
+              "shouldHide": !shouldShow115
+            }
+          )}>
+          <NotesPerfectCutText className="counter__perfectNotes--text">
+            {BeatSaberCounterWidgetPerfectCuts.notesCutText(notesCut115)}
+          </NotesPerfectCutText>
+        </NotesPerfectCutContainer>
+      )}
+    </>
   );
 }
 
@@ -56,11 +110,18 @@ function App() {
   const [configLoaded, setConfigLoaded] = React.useState(false);
 
   React.useLayoutEffect(() => {
-    setConfigLoaded(!!window.BeatSaberCounterWidget)
+    setConfigLoaded(!!window.BeatSaberCounterWidget);
   }, [window.BeatSaberCounterWidget, setConfigLoaded]);
 
   if (configLoaded) {
-    return <Counter BeatSaberCounterWidget={window.BeatSaberCounterWidget} />
+    return (
+      <Counter
+        BeatSaberCounterWidget={window.BeatSaberCounterWidget}
+        BeatSaberCounterWidgetPerfectCuts={
+          window.BeatSaberCounterWidgetPerfectCuts
+        }
+      />
+    );
   }
 
   return <code>Widget is not configured sadge</code>;

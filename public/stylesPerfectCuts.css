@@ -1,0 +1,58 @@
+/*
+
+  You can use colors/fonts defined in styles.css here
+
+*/
+
+@keyframes fadeIn {
+  0% { opacity: 0; top: 30px; }
+  100% { opacity: 1; top: 150px; }
+}
+@keyframes fadeOut {
+  0% { opacity: 1; top: 150px; }
+  100% { opacity: 0; top: 30px; }
+}
+
+.counter__perfectNotes--container {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 28pt;
+
+  position: fixed;
+  border-radius: 20px;
+  left: 30px;
+  padding: 15px 24px;
+
+  color: var(--text);
+  text-shadow: var(--text-shadow) 1px 1px;
+  background-color: var(--background);
+  box-shadow: var(--background-shadow) 5px 5px;
+
+  transform: scale(var(--ui-scale));
+  transform-origin: 0 0;
+
+  /* opacity: 0; */
+  
+  transition: opacity 1s linear, top 1s linear;
+  opacity: 1;
+  top: 150px;
+  z-index: -1;
+}
+
+.counter__perfectNotes--container.shouldShow {
+  animation: fadeIn 1s linear;
+  opacity: 1;
+  top: 150px;
+}
+
+.counter__perfectNotes--container.shouldHide {
+  animation: fadeOut 1s linear;
+  opacity: 0;
+  top: 30px;
+}
+
+
+
+.counter__perfectNotes--text {
+
+}
