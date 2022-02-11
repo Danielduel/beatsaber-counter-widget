@@ -2,8 +2,8 @@ import React from "react";
 import cn from "classnames";
 import styled from "styled-components";
 // use very scoped file to reduce size of bundle
-import { useHTTPStatusWebsocket } from "@duelsik/rehooked/lib/BeatSaber/useHTTPStatusWebsocket";
-import { useNumberReducer } from "@duelsik/rehooked/lib/common/useNumberReducer";
+import { useHTTPStatusWebsocket } from "@duelsik/twitch-overlay-toolkit/lib/BeatSaber/useHTTPStatusWebsocket";
+import { useNumberReducer } from "@duelsik/twitch-overlay-toolkit/lib/common/useNumberReducer";
 import { createUsePlayEventsInDevMode } from "./usePlayEventsInDevMode";
 import { useDelayedTrigger } from "./useDelayedTrigger";
 

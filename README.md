@@ -8,10 +8,10 @@ DON'T replace files in the bundle with files created by somebody else
 0. Prerequisites
   * HTTP Status - https://github.com/opl-/beatsaber-http-status/releases
     * HTTP Status has own (2) dependencies! (https://github.com/opl-/beatsaber-http-status#manual)
-      * BS Utils
+      * BS Utils (most likely you already have this if you have modded beatsaber)
       * websocket-sharp
       (https://beatmods.com/#/mods)
-1. Download release from releases page
+1. Download release from releases page (https://github.com/Duelsik/beatsaber-counter-widget/releases/)
 2. Unzip to empty (separate) folder
 3. Add (drag&drop works) `index.html` from unpacked folder to obs scene.
 
@@ -37,6 +37,12 @@ No configuration required, but you might want to change `styles.css` and/or `con
 # Testing
 
 If you add "?dev" at the end of address - widget will automagically generate events.
+
+# Building
+
+- Have node@16 installed, or use nvm and run `nvm use` in project root dir
+- Install packages using `yarn`
+- Build project via `yarn build` or start dev server via `yarn start`
 
 # Help with customization and features
 

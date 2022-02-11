@@ -1,4 +1,4 @@
-import { HTTPStatus } from "@duelsik/rehooked/lib/BeatSaber/HTTPStatusProtocol";
+import { HTTPStatus } from "@duelsik/twitch-overlay-toolkit/lib/BeatSaber/HTTPStatusProtocol";
 import React from "react";
 
 function createUsePlayEventsInDevMode(isDev: boolean) {
